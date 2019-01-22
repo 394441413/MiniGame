@@ -1,0 +1,22 @@
+ init() {
+        this.scrollview.scrollToTop(0.1);
+        var openDataContext = wx.getOpenDataContext();
+        var sharedCanvas = openDataContext.canvas;
+        sharedCanvas.width = 600;
+        sharedCanvas.height = 3000;
+        openDataContext.postMessage({
+            type: 1,
+        })
+        this.schedule(() => {
+            this._updateSubDomainCanvas();
+        }, 0.5, 5)
+    },
+
+    _updateSubDomainCanvas() {
+        let tex = new cc.Texture2D();
+        var openDataContext = wx.getOpenDataContext();
+        var sharedCanvas = openDataContext.canvas;
+        tex.initWithElement(sharedCanvas);
+        tex.handleLoadedTexture();
+        this.rankSp.spriteFrame = new cc.SpriteFrame(tex);
+    },
